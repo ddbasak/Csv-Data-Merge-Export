@@ -4,7 +4,7 @@ import pandas as pd
 park_url="https://api.ibb.gov.tr/ispark/Park"
 park_detayli_url= "https://api.ibb.gov.tr/ispark/ParkDetay?id="
 
-# hata verir ve program durur.
+# Hata verir ve program durur.
 response= requests.get(park_url)
 if response.status_code!=200:
     print("Park listesi oluşturulamadı")
@@ -13,7 +13,7 @@ if response.status_code!=200:
 park= response.json() #API'den gelen cevabı Python listesine çevirir.
 data=[] #Sonuçları saklayacağımız boş listeyi oluşturur.
 
-# for ile her bir otopark için döngü başlar. 
+# For ile her bir otopark için döngü başlar. 
 for parklar in park:
     parklar_id= parklar.get("parkID")
     detayli_response=requests.get(park_detayli_url+ str(parklar_id))
@@ -23,7 +23,7 @@ for parklar in park:
         print(f"{parklar_id} için detay verisi oluşturulamadı")
         continue
 
-    # try, koddaki hata kontrolü.
+    # Try, koddaki hata kontrolü sağlanır.
     try:
         detayli= detayli_response.json()
      
