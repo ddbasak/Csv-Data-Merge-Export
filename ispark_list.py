@@ -1,13 +1,9 @@
-# Web servisinden (API) veri çekmemizi sağlar.
 import requests
-# Veriyi tablo (DataFrame) olarak işler ve Excel dosyasına yazar.
 import pandas as pd
 
 park_url="https://api.ibb.gov.tr/ispark/Park"
-# ?id= ile sonuna park ID’si eklendi.
 park_detayli_url= "https://api.ibb.gov.tr/ispark/ParkDetay?id="
 
-# requests.get API’den veri ister. status_code != 200: Eğer yanıt başarılı değilse (200 OK değilse), 
 # hata verir ve program durur.
 response= requests.get(park_url)
 if response.status_code!=200:
@@ -17,8 +13,7 @@ if response.status_code!=200:
 park= response.json() #API'den gelen cevabı Python listesine çevirir.
 data=[] #Sonuçları saklayacağımız boş listeyi oluşturur.
 
-# for ile her bir otopark için döngü başlar. park.get("parkID"), arkın benzersiz ID’sini alır. 
-# detail_response detaylı bilgi almak için parkID ile yeni bir istek yapılır.
+# for ile her bir otopark için döngü başlar. 
 for parklar in park:
     parklar_id= parklar.get("parkID")
     detayli_response=requests.get(park_detayli_url+ str(parklar_id))
@@ -28,9 +23,7 @@ for parklar in park:
         print(f"{parklar_id} için detay verisi oluşturulamadı")
         continue
 
-    # try: Kodun içinde hata olursa program çökmesin diye kullanılır.
-    #isinstance(detail, list): Gelen veri listeyse ilk eleman alınır.
-    #len(detail) > 0: Liste boşsa veri yoktur; bu durumda park atlanır.
+    # try, koddaki hata kontrolü.
     try:
         detayli= detayli_response.json()
      
